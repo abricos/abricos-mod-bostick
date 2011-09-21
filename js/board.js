@@ -279,8 +279,9 @@ Component.entryPoint = function(){
 		if (!Brick.objectExists('Brick.mod.bos.Workspace.instance')){
 			return;
 		}
-		
-		new BosIconWidget();
+		API.initManager(function(){
+			new BosIconWidget();
+		});
 	};
 
 	
@@ -472,10 +473,36 @@ Component.entryPoint = function(){
 			});
 		}
 	};
-	NS.stickManager = new StickManager();
+	NS.StickManager = StickManager;
+
+	NS.stickManager = null;
+
+	API.addStick = function(callback){
+		callback = L.isFunction(callback) ? callback : function(){};
+		API.initManager(function(){
+			var stick = NS.stickManager.createStick();
+			callback(stick);
+		});
+	};
 	
-	API.addStick = function(){
-		return NS.stickManager.createStick();
+	API.initManager = function (callback){
+		callback = L.isFunction(callback) ? callback : function(){};
+		
+		if (!L.isNull(NS.stickManager)){
+			callback(NS.stickManager);
+			return;
+		}
+		
+		R.load(function(){
+			if (R['isWrite']){
+				new StickManager(function(manager){
+					NS.stickManager = manager;
+					callback(manager);
+				});
+			}else{
+				callback(null);
+			}
+		});
 	};
 
 };
