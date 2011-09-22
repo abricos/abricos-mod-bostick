@@ -1,0 +1,62 @@
+<!--[*]
+[tt=module]_sys[/tt]
+[mod=user]userblock[/mod]
+[css]/tt/default/css/main.css[/css]
+[*]-->
+<style>
+<!--
+
+.clear {
+	clear: both;
+}
+.mod-bostick .welcome {
+	width: 100%;
+}
+.mod-bostick .welcome .blockcenter {
+	margin: 150px auto;
+	width: 320px;
+}
+.mod-bostick .welcome .info {
+	margin: 10px;
+	font-size: 110%;
+}
+.mod-bostick .welcome .info img {
+	float: right;
+}
+.mod-bostick .welcome #bostickLoading {
+	font-size: 1.2em;
+}
+
+-->
+</style>
+<div class="mod-bostick">
+	<div class="welcome">
+	
+		<div class="blockcenter">
+			<div class="info">
+				<h2>Онлайн стикеры</h2>
+				<p>
+					<img src="/modules/bostick/images/app_icon.gif" />
+					Чтобы использовать стикеры, Вам необходимо авторизоваться
+					<br class="clear" />
+				</p>
+			</div>
+			<div id="bostickLoading">
+				<div>Пожалуйста, подождите, идет загрузка...</div>
+				<div>Работает на платформе <a href="http://abricos.org" target="_blank" title="Платформа интернет приложений, WebOS">Абрикос</a></div>
+			</div>
+			<div class="big" id="loginblock1" style="display: none;">
+				[mod]user:userblock[/mod]
+			</div>
+		
+		</div>
+	
+	</div>
+
+</div>
+<script>
+	Brick.ff('user', 'api', function(){
+		document.getElementById('bostickLoading').style.display = 'none';
+		document.getElementById('loginblock1').style.display = '';
+	});
+</script>

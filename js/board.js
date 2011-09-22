@@ -250,18 +250,17 @@ Component.entryPoint = function(){
 	};
 	NS.StickWidget = StickWidget;
 	
-	var BosIconWidget = function(){
-		this.init();
+	var IconWidget = function(container){
+		this.init(container);
 	};
-	BosIconWidget.prototype = {
-		init: function(){
-			var wks = Brick.mod.bos.Workspace.instance;
+	IconWidget.prototype = {
+		init: function(container){
 			
-			buildTemplate(this, 'bosicon');
+			buildTemplate(this, 'icon');
 			var div = document.createElement('div');
-			div.innerHTML = this._TM.replace('bosicon');
+			div.innerHTML = this._TM.replace('icon');
 			var el = div.childNodes[0];
-			wks.elementLabelList.appendChild(el);
+			container.appendChild(el);
 			
 			var __self = this;
 			E.on(el, 'click', function(e){
@@ -273,17 +272,7 @@ Component.entryPoint = function(){
 			API.addStick();
 		}
 	};
-	NS.BosIconWidget = BosIconWidget;
-	
-	API.showBosIconWidget = function(){
-		if (!Brick.objectExists('Brick.mod.bos.Workspace.instance')){
-			return;
-		}
-		API.initManager(function(){
-			new BosIconWidget();
-		});
-	};
-
+	NS.IconWidget = IconWidget;
 	
 	var StickManager = function(callback){
 		this.init(callback);
@@ -474,17 +463,8 @@ Component.entryPoint = function(){
 		}
 	};
 	NS.StickManager = StickManager;
-
 	NS.stickManager = null;
 
-	API.addStick = function(callback){
-		callback = L.isFunction(callback) ? callback : function(){};
-		API.initManager(function(){
-			var stick = NS.stickManager.createStick();
-			callback(stick);
-		});
-	};
-	
 	API.initManager = function (callback){
 		callback = L.isFunction(callback) ? callback : function(){};
 		
@@ -499,10 +479,27 @@ Component.entryPoint = function(){
 					NS.stickManager = manager;
 					callback(manager);
 				});
+				
 			}else{
 				callback(null);
 			}
 		});
 	};
-
+	
+	API.addStick = function(callback){
+		callback = L.isFunction(callback) ? callback : function(){};
+		API.initManager(function(){
+			var stick = NS.stickManager.createStick();
+			callback(stick);
+		});
+	};
+	
+	API.showIconWidget = function(container, callback){
+		API.initManager(function(){
+			var widget = new IconWidget(container);
+			if (L.isFunction(callback)){
+				callback(widget);
+			}
+		});
+	};
 };

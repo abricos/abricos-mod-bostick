@@ -28,6 +28,18 @@ class BostickModule extends CMSModule {
 		}
 		return $this->_manager;
 	}
+	
+	/**
+	* Получить имя стартового кирпича (/modules/bostick/content/index.html)
+	*
+	* @return string
+	*/
+	public function GetContentName(){
+		if (CMSRegistry::$instance->user->info['userid'] == 0){
+			return "index_guest";
+		}
+		return "index";
+	}
 }
 
 class BostickAction {

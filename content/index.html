@@ -1,0 +1,98 @@
+<!--[*]
+[tt=module]_sys[/tt]
+[mod=user]userblock[/mod]
+[css]/tt/default/css/main.css[/css]
+[script]index.php[/script]
+
+[*]-->
+<style>
+<!--
+
+.clear { clear: both; }
+
+.mod-bostick .workspace .manager {
+	position: relative;
+	margin: 10px 20px;
+}
+
+.mod-bostick .workspace .manager h2 {
+	float: left;
+}
+
+.mod-bostick .workspace .manager #menu {
+	margin-left: 200px;
+}
+.mod-bostick .workspace .manager #menu a {
+	margin-right: 5px;
+}
+
+.mod-bostick .workspace .buser {
+	position: absolute;
+	top: 1px;
+	right: 10px;
+}
+.mod-bostick .workspace .buser span {
+	font-size: 1.2em;
+	vertical-align: top;
+}
+
+.mod-bostick .blockcenter {
+	margin: 150px auto;
+	width: 320px;
+	font-size: 1.2em;
+}
+
+.mod-bostick .aw-bostick-icon .aligner span {
+	display: block;
+}
+
+
+-->
+</style>
+
+<div class="mod-bostick">
+	<div class="workspace">
+		<div class="manager">
+			<h2>Онлайн стикеры</h2>
+			<div id="menu">
+				<a href="/" title="Перейти на главную страницу">Главная</a>
+				<a href="/bos/" id="btnBosUI" title="Перейти в расширенную версию" style="display: none">Расширенная версия</a>
+			</div>
+			<div class="clear"></div>
+			
+			<div id="stickButton"></div>
+
+			<div class="buser">
+				<span>{v#username}</span>
+				(<a href="#" onclick="Brick.mod.user.API.userLogout(); return false;" title="Выйти" >выйти</a>)
+			</div>
+
+		</div>
+		
+		
+	</div>
+
+	<div class="blockcenter">
+		<div id="bostickLoading">
+			<div>Пожалуйста, подождите, идет загрузка...</div>
+			<div>Работает на платформе <a href="http://abricos.org" target="_blank">Абрикос</a></div>
+		</div>
+	</div>
+</div>
+
+<script>
+	Brick.ff('user', 'api');
+	Brick.ff('bostick', 'board', function(){
+		var Dom = YAHOO.util.Dom,
+			NS = Brick.mod.bostick;
+		
+		if (Brick.componentExists('bos', 'os')){
+			Dom.get('btnBosUI').style.display = '';
+		}
+		
+		NS.API.showIconWidget(Dom.get('stickButton'), function(manager){
+			Dom.get('bostickLoading').style.display = 'none';
+			
+		});
+	});
+</script>
