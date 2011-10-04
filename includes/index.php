@@ -8,8 +8,10 @@
  * @author Alexander Kuzmin (roosit@abricos.org)
  */
 
+// кирпич - шаблон, который вызвал этот скрипт
 $brick = Brick::$builder->brick;
 
+// информация о текущем пользователе
 $user = CMSRegistry::$instance->user->info;
 
 $unm = $user['username'];
@@ -18,6 +20,8 @@ $fnm = $user['firstname'];
 
 $username = empty($lnm) && empty($fnm) ? $unm : $fnm."&nbsp;".$lnm;
 
+// в теле шаблона есть переменные {v#userid} и {v#username}, их 
+// нужно заменить на соответствющие значения
 $brick->content = Brick::ReplaceVarByData($brick->content, array(
 	"userid" => $user['userid'],
 	"username" => $username

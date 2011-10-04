@@ -14,10 +14,12 @@ $updateManager = CMSRegistry::$instance->modules->updateManager;
 $db = CMSRegistry::$instance->db;
 $pfx = $db->prefix;
 
+// первое обращение к модулю, произвести его инсталляцию
 if ($updateManager->isInstall()){
+	// инсталлировать роли модуля
 	CMSRegistry::$instance->modules->GetModule('bostick')->permission->Install();
 	
-	// Список стикеров
+	// Создать таблицу стикеров в базе 
 	$db->query_write("
 		CREATE TABLE IF NOT EXISTS ".$pfx."bostk_stick (
 		  `stickid` int(10) unsigned NOT NULL auto_increment COMMENT 'Идентификатор стикера',
@@ -31,7 +33,5 @@ if ($updateManager->isInstall()){
 		  KEY `userid` (`userid`)
 		)".$charset
 	);
-	
 }
-
 ?>
