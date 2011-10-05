@@ -9,6 +9,9 @@
 
 require_once 'dbquery.php';
 
+/**
+ * Управляющий класс модуля
+ */
 class BostickManager extends ModuleManager {
 	
 	/**
@@ -28,6 +31,10 @@ class BostickManager extends ModuleManager {
 	 */
 	public static $instance = null; 
 	
+	/**
+	 * Конструктор
+	 * @param BostickModule $module
+	 */
 	public function BostickManager(BostickModule $module){
 		parent::ModuleManager($module);
 		
@@ -36,36 +43,45 @@ class BostickManager extends ModuleManager {
 		BostickManager::$instance = $this;
 	}
 	
+	/**
+	 * Проверка роли доступа текущего пользователя на доступ к записи стикеров
+	 */
 	public function IsWriteRole(){
 		return $this->module->permission->CheckAction(BostickAction::WRITE) > 0;
 	}
 	
+	/**
+	 * Обработчик AJAX запросов
+	 * @param object $d данные запроса
+	 */
 	public function AJAX($d){
-		
 		switch($d->do){
 			case 'init': return $this->InitData();
 			case 'sticksave': return $this->StickSave($d->stick);
 			case 'stickremove': return $this->StickRemove($d->stickid);
-			
 			case 'stickordupd': return $this->StickOrderUpdate($d->order);
 		}
-		
 		return null;
 	}
-	
+
+	/**
+	 * Проверить доступ текущего пользователя к стикер
+	 * @param integer $stickid идентификатор стикера
+	 */
 	public function StickAccess($stickid){
 		if (!$this->IsWriteRole()){ return false; }
-	
 		$row = BostickQuery::Stick($this->db, $this->userid, $stickid, true);
-
 		return !empty($row);
 	}
 	
+	/**
+	 * Вернуть данные для инициализации виджета
+	 * @return object
+	 */
 	public function InitData(){
 		if (!$this->IsWriteRole()){
 			return null;
 		}
-	
 		$ret = new stdClass();
 	
 		$ret->sticks = array();
@@ -80,6 +96,10 @@ class BostickManager extends ModuleManager {
 		return $ret;
 	}
 	
+	/**
+	 * Сохранить стикера
+	 * @param object $sk данные стикера отправленые виджетом
+	 */
 	public function StickSave($sk){
 		if (!$this->IsWriteRole()){ return null; }
 		
@@ -94,6 +114,10 @@ class BostickManager extends ModuleManager {
 		return BostickQuery::Stick($this->db,  $this->userid, $sk->id, true);
 	}
 	
+	/**
+	 * Удалить стикера
+	 * @param integer $stickid идентификатор стикера
+	 */
 	public function StickRemove($stickid){
 		if (!$this->IsWriteRole()){ return null; }
 		BostickQuery::StickRemove($this->db, $this->userid, $stickid);
@@ -124,9 +148,7 @@ class BostickManager extends ModuleManager {
 		}else{
 			$uman->UserConfigUpdate($this->userid, $rowcfg['id'], $order);
 		}
-		
 	}
-	
 }
 
 ?>

@@ -40,12 +40,6 @@ class BostickModule extends CMSModule {
 	}
 	
 	/**
-	* Получить имя стартового кирпича (/modules/bostick/content/index.html)
-	*
-	* @return string
-	*/
-	
-	/**
 	 * Стартовый шаблон для сборки страницы.
 	 * Вызывается когда браузер заппросит страницу по адресу http://youdomain.tld/bostick/*
 	 * @return string

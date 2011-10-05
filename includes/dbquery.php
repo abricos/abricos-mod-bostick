@@ -7,8 +7,19 @@
  * @author Alexander Kuzmin (roosit@abricos.org)
  */
 
+/**
+ * Все запросы к базе данных модуля Стикер
+ */
 class BostickQuery {
 	
+	/**
+	 * Получить данные стикера из базы
+	 * @param CMSDatabase $db
+	 * @param integer $userid идентификатор пользователя
+	 * @param integer $stickid идентификатор стикера
+	 * @param boolean $retarray вернуть массив если true, иначе указатель на результат запроса
+	 * @return mixed возвращает значение исходя из параметра $retarray
+	 */
 	public static function Stick(CMSDatabase $db, $userid, $stickid, $retarray = false){
 		$sql = "
 			SELECT
@@ -20,7 +31,13 @@ class BostickQuery {
 		";
 		return ($retarray ? $db->query_first($sql) : $db->query_read($sql));
 	}
-	
+
+	/**
+	 * Получить список стикеров из базы
+	 * @param CMSDatabase $db
+	 * @param integer $userid идентификатор пользователя
+	 * @return integer возвращает указать на результат запроса
+	 */
 	public static function StickList(CMSDatabase $db, $userid){
 		$sql = "
 			SELECT
@@ -34,6 +51,12 @@ class BostickQuery {
 		return $db->query_read($sql);
 	}
 	
+	/**
+	 * Добавить стикер в базу
+	 * @param CMSDatabase $db
+	 * @param integer $userid идентификатор пользователя
+	 * @param object $sk данные стикера
+	 */
 	public static function StickAppend(CMSDatabase $db, $userid, $sk){
 		$sql = "
 			INSERT INTO ".$db->prefix."bostk_stick 
@@ -49,6 +72,13 @@ class BostickQuery {
 		return $db->insert_id();
 	}
 
+	/**
+	 * Обновить стикер а базе
+	 * @param CMSDatabase $db
+	 * @param integer $userid идентификатор пользователя
+	 * @param integer $stickid идентификатор стикера
+	 * @param object $sk данные стикера
+	 */
 	public static function StickUpdate(CMSDatabase $db, $userid, $stickid, $sk){
 		$sql = "
 			UPDATE ".$db->prefix."bostk_stick
@@ -60,6 +90,12 @@ class BostickQuery {
 		$db->query_write($sql);
 	}
 	
+	/**
+	 * Удалить стикер из базы
+	 * @param CMSDatabase $db
+	 * @param integer $userid идентификатор пользователя
+	 * @param integer $stickid идентификатор стикера
+	 */
 	public static function StickRemove(CMSDatabase $db, $userid, $stickid){
 		$sql = "
 			UPDATE ".$db->prefix."bostk_stick
@@ -70,5 +106,4 @@ class BostickQuery {
 		$db->query_write($sql);
 	}
 }
-
 ?>
