@@ -10,14 +10,14 @@
  */
 
 $charset = "CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'";
-$updateManager = CMSRegistry::$instance->modules->updateManager; 
-$db = CMSRegistry::$instance->db;
+$updateManager = Ab_UpdateManager::$current; 
+$db = Abricos::$db;
 $pfx = $db->prefix;
 
 // первое обращение к модулю, произвести его инсталляцию
 if ($updateManager->isInstall()){
 	// инсталлировать роли модуля
-	CMSRegistry::$instance->modules->GetModule('bostick')->permission->Install();
+	Abricos::GetModule('bostick')->permission->Install();
 	
 	// Создать таблицу стикеров в базе 
 	$db->query_write("

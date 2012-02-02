@@ -12,19 +12,12 @@ require_once 'dbquery.php';
 /**
  * Управляющий класс модуля
  */
-class BostickManager extends ModuleManager {
+class BostickManager extends Ab_ModuleManager {
 	
 	/**
 	 * @var BostickModule
 	 */
 	public $module = null;
-	
-	/**
-	 * User
-	 * @var User
-	 */
-	public $user = null;
-	public $userid = 0;
 	
 	/**
 	 * @var BostickManager
@@ -35,19 +28,17 @@ class BostickManager extends ModuleManager {
 	 * Конструктор
 	 * @param BostickModule $module
 	 */
-	public function BostickManager(BostickModule $module){
-		parent::ModuleManager($module);
+	public function __construct(BostickModule $module){
+		parent::__construct($module);
 		
-		$this->user = CMSRegistry::$instance->modules->GetModule('user');
-		$this->userid = $this->user->info['userid'];
 		BostickManager::$instance = $this;
 	}
 	
 	/**
-	 * Проверка роли доступа текущего пользователя на доступ к записи стикеров
+	 * Есть ли доступ текущего пользователя на запись стикеров
 	 */
 	public function IsWriteRole(){
-		return $this->module->permission->CheckAction(BostickAction::WRITE) > 0;
+		return $this->IsRoleEnable(BostickAction::WRITE);
 	}
 	
 	/**
@@ -127,7 +118,7 @@ class BostickManager extends ModuleManager {
 	/*  сортировка стикеров будет храниться в специализированной таблице пользовательских настроек */
 	
 	public function StickOrderConfigRow(){
-		$uman = CMSRegistry::$instance->user->GetManager();
+		$uman = Abricos::$user->GetManager();
 		$rows = $uman->UserConfigList($this->userid, 'bostick');
 		while (($row = $this->db->fetch_array($rows))){
 			if ($row['nm'] == "stickorder"){
@@ -140,7 +131,7 @@ class BostickManager extends ModuleManager {
 	public function StickOrderUpdate($order){
 		if (!$this->IsWriteRole()){ return null; }
 		
-		$uman = CMSRegistry::$instance->user->GetManager();
+		$uman = Abricos::$user->GetManager();
 		$rowcfg = $this->StickOrderConfigRow();
 		
 		if (is_null($rowcfg)){

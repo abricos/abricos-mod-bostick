@@ -14,13 +14,13 @@ class BostickQuery {
 	
 	/**
 	 * Получить данные стикера из базы
-	 * @param CMSDatabase $db
+	 * @param Ab_Database $db
 	 * @param integer $userid идентификатор пользователя
 	 * @param integer $stickid идентификатор стикера
 	 * @param boolean $retarray вернуть массив если true, иначе указатель на результат запроса
 	 * @return mixed возвращает значение исходя из параметра $retarray
 	 */
-	public static function Stick(CMSDatabase $db, $userid, $stickid, $retarray = false){
+	public static function Stick(Ab_Database $db, $userid, $stickid, $retarray = false){
 		$sql = "
 			SELECT
 				stickid as id,
@@ -34,11 +34,11 @@ class BostickQuery {
 
 	/**
 	 * Получить список стикеров из базы
-	 * @param CMSDatabase $db
+	 * @param Ab_Database $db
 	 * @param integer $userid идентификатор пользователя
 	 * @return integer возвращает указать на результат запроса
 	 */
-	public static function StickList(CMSDatabase $db, $userid){
+	public static function StickList(Ab_Database $db, $userid){
 		$sql = "
 			SELECT
 				stickid as id,
@@ -53,11 +53,11 @@ class BostickQuery {
 	
 	/**
 	 * Добавить стикер в базу
-	 * @param CMSDatabase $db
+	 * @param Ab_Database $db
 	 * @param integer $userid идентификатор пользователя
 	 * @param object $sk данные стикера
 	 */
-	public static function StickAppend(CMSDatabase $db, $userid, $sk){
+	public static function StickAppend(Ab_Database $db, $userid, $sk){
 		$sql = "
 			INSERT INTO ".$db->prefix."bostk_stick 
 			(userid, body, color, region, dateline) VALUES (
@@ -74,12 +74,12 @@ class BostickQuery {
 
 	/**
 	 * Обновить стикер а базе
-	 * @param CMSDatabase $db
+	 * @param Ab_Database $db
 	 * @param integer $userid идентификатор пользователя
 	 * @param integer $stickid идентификатор стикера
 	 * @param object $sk данные стикера
 	 */
-	public static function StickUpdate(CMSDatabase $db, $userid, $stickid, $sk){
+	public static function StickUpdate(Ab_Database $db, $userid, $stickid, $sk){
 		$sql = "
 			UPDATE ".$db->prefix."bostk_stick
 			SET 
@@ -92,11 +92,11 @@ class BostickQuery {
 	
 	/**
 	 * Удалить стикер из базы
-	 * @param CMSDatabase $db
+	 * @param Ab_Database $db
 	 * @param integer $userid идентификатор пользователя
 	 * @param integer $stickid идентификатор стикера
 	 */
-	public static function StickRemove(CMSDatabase $db, $userid, $stickid){
+	public static function StickRemove(Ab_Database $db, $userid, $stickid){
 		$sql = "
 			UPDATE ".$db->prefix."bostk_stick
 			SET 

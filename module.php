@@ -10,14 +10,16 @@
 /**
  * Класс модуля "Стикер"
  */
-class BostickModule extends CMSModule {
+class BostickModule extends Ab_Module {
+
+	private $_manager = null;
 	
 	/**
 	 * Конструктор
 	 */
 	public function __construct(){
 		// версия модуля
-		$this->version = "0.1";
+		$this->version = "0.1.1";
 		// наименование модуля (идентификатор его)
 		$this->name = "bostick";
 		// имя раздела в адресной строке (http://youdomain.tld/bostick/*)
@@ -47,7 +49,7 @@ class BostickModule extends CMSModule {
 	public function GetContentName(){
 		// стартовые шаблоны находятся в папке модуля content
 		// для этого модуля это будет папка /modules/bostick/content
-		if (CMSRegistry::$instance->user->info['userid'] == 0){
+		if (Abricos::$user->IsRegistred() == 0){
 			// для гостей собираем страницу из шаблона index_guest.html
 			return "index_guest"; // /modules/bostick/content/index_guest.html
 		}
@@ -70,7 +72,7 @@ class BostickAction {
 /**
  * Менеджер ролей модуля Стикер
  */
-class BostickPermission extends AbricosPermission {
+class BostickPermission extends Ab_UserPermission {
 
 	/**
 	 * Конструктор
@@ -80,8 +82,8 @@ class BostickPermission extends AbricosPermission {
 		// объявление ролей по умолчанию
 		// используется при инсталяции модуля в платформе
 		$defRoles = array(
-			new AbricosRole(BostickAction::WRITE, UserGroup::REGISTERED),
-			new AbricosRole(BostickAction::WRITE, UserGroup::ADMIN)
+			new Ab_UserRole(BostickAction::WRITE, Ab_UserGroup::REGISTERED),
+			new Ab_UserRole(BostickAction::WRITE, Ab_UserGroup::ADMIN)
 		);
 		parent::__construct($module, $defRoles);
 	}
@@ -97,7 +99,6 @@ class BostickPermission extends AbricosPermission {
 }
 
 // создать экземляр класса модуля и зарегистрировать его в ядре 
-$mod = new BostickModule();
-CMSRegistry::$instance->modules->Register($mod);
+Abricos::ModuleRegister(new BostickModule());
 
 ?>
