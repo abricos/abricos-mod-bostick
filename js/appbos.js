@@ -10,8 +10,8 @@ Component.entryPoint = function(){
 	
 	var os = Brick.mod.bos;
 	os.ApplicationManager.startupAfterRegister(function(){
-		var wks = Brick.mod.bos.Workspace.instance;
-		Brick.f('bostick', 'board', 'showIconWidget', wks.labelListWidget.element);
+		var wks = Brick.mod.bos.LabelListWidget.instance;
+		Brick.f('bostick', 'board', 'showIconWidget', wks.element);
 	});
 	
 };
