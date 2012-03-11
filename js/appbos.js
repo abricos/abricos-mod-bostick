@@ -11,7 +11,7 @@ Component.entryPoint = function(){
 	var os = Brick.mod.bos;
 	os.ApplicationManager.startupAfterRegister(function(){
 		var wks = Brick.mod.bos.Workspace.instance;
-		Brick.f('bostick', 'board', 'showIconWidget', wks.elementLabelList);
+		Brick.f('bostick', 'board', 'showIconWidget', wks.labelListWidget.element);
 	});
 	
 };
