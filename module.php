@@ -19,7 +19,7 @@ class BostickModule extends Ab_Module {
 	 */
 	public function __construct(){
 		// версия модуля
-		$this->version = "0.1.1";
+		$this->version = "0.1.2";
 		// наименование модуля (идентификатор его)
 		$this->name = "bostick";
 		// имя раздела в адресной строке (http://youdomain.tld/bostick/*)
