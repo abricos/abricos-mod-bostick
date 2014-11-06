@@ -1,6 +1,7 @@
 <?php
 return array(
-	'content' => array(
+    "title" => "Стикеры",
+    'content' => array(
 		'index' => array(
 			"1" => "Онлайн стикеры",
 			"2" => "Перейти на главную страницу",
