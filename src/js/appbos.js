@@ -6,8 +6,6 @@
 var Component = new Brick.Component();
 Component.entryPoint = function(){
 	
-	if (Brick.Permission.check('bostick', '30') != 1){ return; }
-	
 	var os = Brick.mod.bos;
 	os.ApplicationManager.startupAfterRegister(function(){
 		var wks = Brick.mod.bos.LabelListWidget.instance;
