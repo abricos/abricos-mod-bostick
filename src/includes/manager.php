@@ -78,7 +78,7 @@ class BostickManager extends Ab_ModuleManager {
 		$ret->sticks = array();
 		$rows = BostickQuery::StickList($this->db, $this->userid);
 		while (($row = $this->db->fetch_array($rows))){
-			array_push($ret->sticks, $row);
+			$ret->sticks = $row;
 		}
 		
 		$ord = $this->StickOrderConfigRow();
