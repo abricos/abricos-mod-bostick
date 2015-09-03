@@ -1,0 +1,63 @@
+.aw-bostick-w {
+
+  @width: 200px;
+  @margin: 5px;
+  @padding: 5px;
+
+  position: absolute;
+  left: 500px;
+  top: 100px;
+  background-color: #fefeb4;
+  cursor: move;
+  width: @width+@margin*2;
+
+  &:hover .mv .bremove {
+    display: block;
+  }
+
+  .bd {
+    position: relative;
+    padding: @padding;
+    width: @width;
+    height: 120px;
+    margin: @margin;
+    border: 1px dotted #000;
+    /*cursor: text;/**/
+    cursor: move;
+
+
+    .bremove {
+      cursor: pointer;
+      position: absolute;
+      right: 3px;
+      top: 3px;
+      background: url("/modules/bostick/images/remove.gif");
+      width: 9px;
+      height: 9px;
+      display: none;
+    }
+    /*
+    .view {
+      width: 100%;
+      min-height: 1em;
+      overflow: hidden;
+    }
+
+    .view,
+    textarea {
+      width: 200px;
+      height: 120px;
+      padding: 0;
+      font-family: Verdana, sans-serif, Arial, FreeSans;
+      font-size: 12px;
+      line-height: 1.1em;
+      background-color: #fefeb4;
+    }
+
+    textarea {
+      border: none;
+    }
+    /**/
+  }
+
+}

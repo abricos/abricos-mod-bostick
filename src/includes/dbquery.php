@@ -1,10 +1,10 @@
 <?php
 /**
- * @version $Id$
  * @package Abricos
  * @subpackage Bostick
- * @copyright Copyright (C) 2011 Brickos Ltd. All rights reserved.
- * @author Alexander Kuzmin (roosit@abricos.org)
+ * @copyright 2011-2015 Alexander Kuzmin
+ * @license http://opensource.org/licenses/mit-license.php MIT License (MIT)
+ * @author Alexander Kuzmin <roosit@abricos.org>
  */
 
 /**

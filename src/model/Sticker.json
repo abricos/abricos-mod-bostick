@@ -1,0 +1,17 @@
+{
+  "version": "0.1.0",
+  "type": "model",
+  "fields": {
+    "id": {
+      "type": "int"
+    },
+    "body": {
+      "type": "string",
+      "json": "bd"
+    },
+    "region": {
+      "type": "string",
+      "json": "rg"
+    }
+  }
+}
