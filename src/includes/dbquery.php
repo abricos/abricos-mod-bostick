@@ -20,16 +20,13 @@ class BostickQuery {
 	 * @param boolean $retarray вернуть массив если true, иначе указатель на результат запроса
 	 * @return mixed возвращает значение исходя из параметра $retarray
 	 */
-	public static function Stick(Ab_Database $db, $userid, $stickid, $retarray = false){
+	public static function Stick(Ab_Database $db, $userid, $stickid){
 		$sql = "
-			SELECT
-				stickid as id,
-				body as bd,
-				region as rg
-			FROM ".$db->prefix."bostk_stick 
+			SELECT s.stickid as id, s.*
+			FROM ".$db->prefix."bostk_stick s
 			WHERE userid=".bkint($userid)." AND stickid=".bkint($stickid)."
 		";
-		return ($retarray ? $db->query_first($sql) : $db->query_read($sql));
+		return $db->query_first($sql);
 	}
 
 	/**
@@ -40,11 +37,8 @@ class BostickQuery {
 	 */
 	public static function StickList(Ab_Database $db, $userid){
 		$sql = "
-			SELECT
-				stickid as id,
-				body as bd,
-				region as rg
-			FROM ".$db->prefix."bostk_stick 
+			SELECT s.stickid as id, s.*
+			FROM ".$db->prefix."bostk_stick s
 			WHERE userid=".bkint($userid)." AND deldate=0
 			ORDER BY dateline
 		";
@@ -62,9 +56,9 @@ class BostickQuery {
 			INSERT INTO ".$db->prefix."bostk_stick 
 			(userid, body, color, region, dateline) VALUES (
 				".bkint($userid).",
-				'".bkstr($sk->bd)."',
+				'".bkstr($sk->body)."',
 				'fefeb4',
-				'".bkstr($sk->rg)."',
+				'".bkstr($sk->region)."',
 				".TIMENOW."
 			)
 		";
@@ -83,8 +77,8 @@ class BostickQuery {
 		$sql = "
 			UPDATE ".$db->prefix."bostk_stick
 			SET 
-				body='".bkstr($sk->bd)."',
-				region='".bkstr($sk->rg)."' 
+				body='".bkstr($sk->body)."',
+				region='".bkstr($sk->region)."'
 			WHERE userid=".bkint($userid)." AND stickid=".bkint($stickid)."
 		";
 		$db->query_write($sql);
@@ -99,8 +93,7 @@ class BostickQuery {
 	public static function StickRemove(Ab_Database $db, $userid, $stickid){
 		$sql = "
 			UPDATE ".$db->prefix."bostk_stick
-			SET 
-				deldate=".TIMENOW." 
+			SET deldate=".TIMENOW."
 			WHERE userid=".bkint($userid)." AND stickid=".bkint($stickid)."
 		";
 		$db->query_write($sql);

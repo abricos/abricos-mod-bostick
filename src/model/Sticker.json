@@ -7,11 +7,15 @@
     },
     "body": {
       "type": "string",
-      "json": "bd"
+      "json": "b"
+    },
+    "color": {
+      "type": "string",
+      "json": "c"
     },
     "region": {
       "type": "string",
-      "json": "rg"
+      "json": "r"
     }
   }
 }

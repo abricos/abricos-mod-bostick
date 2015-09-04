@@ -29,9 +29,16 @@ Component.entryPoint = function(NS){
             stickerList: {
                 attribute: true,
                 type: 'modelList:StickerList'
+            },
+            stickerSave: {
+                args: ['sticker'],
+                attribute: false
+            },
+            stickerRemove: {
+                args: ['stickerid'],
+                attribute: false
             }
         },
         URLS: {}
     });
-
 };

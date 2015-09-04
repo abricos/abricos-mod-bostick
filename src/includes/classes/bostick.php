@@ -32,7 +32,7 @@ class Bostick {
         $this->manager = $manager;
         $this->db = $manager->db;
 
-        $models = $this->models = AbricosModelManager::GetManager('bostick');
+        $models = $this->models = AbricosModelManager::GetManager($manager->module->name);
 
         $models->RegisterClass('Sticker', 'BostickSticker');
         $models->RegisterClass('StickerList', 'BostickStickerList');
@@ -44,6 +44,10 @@ class Bostick {
                 return $this->AppStructureToJSON();
             case "stickerList":
                 return $this->StickerListToJSON();
+            case "stickerSave":
+                return $this->StickerSaveToJSON($d->sticker);
+            case "stickerRemove":
+                return $this->StickerRemoveToJSON($d->stickerid);
         }
         return null;
     }
@@ -128,13 +132,57 @@ class Bostick {
 
         $rows = BostickQuery::StickList($this->db, Abricos::$user->id);
         while (($d = $this->db->fetch_array($rows))){
-            $list->Add($this->models->InstanceClass('Sticker', $d));
+            $sticker = $this->models->InstanceClass('Sticker', $d);
+            $list->Add($sticker);
         }
 
         return $list;
     }
 
+    public function StickerSaveToJSON($sk){
+        $ret = $this->StickerSave($sk);
+        return $this->ResultToJSON('stickerSave', $ret);
+    }
 
+    public function StickerSave($sk){
+        if (!$this->manager->IsWriteRole()){
+            return 403;
+        }
+
+        $parser = Abricos::TextParser();
+        $sk->id = intval($sk->id);
+        $sk->region = strval($sk->region);
+        $sk->body = $parser->Parser($sk->body);
+
+        if ($sk->id == 0){
+            $sk->id = BostickQuery::StickAppend($this->db, Abricos::$user->id, $sk);
+        } else {
+            BostickQuery::StickUpdate($this->db, Abricos::$user->id, $sk->id, $sk);
+        }
+
+        $ret = new stdClass();
+        $ret->stickerid = $sk->id;
+
+        return $ret;
+    }
+
+    public function StickerRemoveToJSON($stickerid){
+        $ret = $this->StickerRemove($stickerid);
+        return $this->ResultToJSON('stickerRemove', $ret);
+    }
+
+    public function StickerRemove($stickerid){
+        if (!$this->manager->IsWriteRole()){
+            return 403;
+        }
+
+        BostickQuery::StickRemove($this->db, Abricos::$user->id, $stickerid);
+
+        $ret = new stdClass();
+        $ret->stickerid = $stickerid;
+
+        return $ret;
+    }
 }
 
 ?>
