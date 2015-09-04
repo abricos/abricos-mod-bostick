@@ -37,6 +37,10 @@ Component.entryPoint = function(NS){
             stickerRemove: {
                 args: ['stickerid'],
                 attribute: false
+            },
+            stickersOrderSave: {
+                args: ['orders'],
+                attribute: false
             }
         },
         URLS: {}

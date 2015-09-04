@@ -24,12 +24,22 @@ if ($updateManager->isInstall()){
 		  userid int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Идентификатор автора',
 		  body TEXT NOT NULL  COMMENT 'Текст стикера',
 		  color varchar(6) NOT NULL DEFAULT '' COMMENT 'Цвет',
-		  region varchar(36) NOT NULL DEFAULT '' COMMENT 'Цвет',
+		  region varchar(36) NOT NULL DEFAULT '' COMMENT 'Region: `x,y,w,h`',
+		  ord int(5) unsigned NOT NULL DEFAULT 0 COMMENT 'Order',
+
           dateline int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Дата/время создания',
 		  deldate int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Дата/время удаления',
+
 		  PRIMARY KEY  (stickid),
 		  KEY userid (userid)
 		)".$charset
 	);
+}
+
+if (!$updateManager->isInstall() && $updateManager->isUpdate('0.1.3')){
+	$db->query_write("
+		ALTER TABLE ".$pfx."bostk_stick
+		ADD  ord int(5) unsigned NOT NULL DEFAULT 0 COMMENT 'Order'
+	");
 }
 ?>

@@ -16,6 +16,10 @@
     "region": {
       "type": "string",
       "json": "r"
+    },
+    "ord": {
+      "type": "int",
+      "json": "o"
     }
   }
 }

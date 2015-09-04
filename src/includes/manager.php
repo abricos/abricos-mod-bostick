@@ -59,47 +59,6 @@ class BostickManager extends Ab_ModuleManager {
         return $this->GetBostick()->AJAX($d);
     }
 
-    /**
-     * Проверить доступ текущего пользователя к стикер
-     *
-     * @param integer $stickid идентификатор стикера
-     */
-    public function StickAccess($stickid){
-        if (!$this->IsWriteRole()){
-            return false;
-        }
-        $row = BostickQuery::Stick($this->db, $this->userid, $stickid, true);
-        return !empty($row);
-    }
-
-    /*  сортировка стикеров будет храниться в специализированной таблице пользовательских настроек */
-
-    public function StickOrderConfigRow(){
-        $uman = Abricos::$user->GetManager();
-        $rows = $uman->UserConfigList($this->userid, 'bostick');
-        while (($row = $this->db->fetch_array($rows))){
-            if ($row['nm'] == "stickorder"){
-                return $row;
-            }
-        }
-        return null;
-    }
-
-    public function StickOrderUpdate($order){
-        if (!$this->IsWriteRole()){
-            return null;
-        }
-
-        $uman = Abricos::$user->GetManager();
-        $rowcfg = $this->StickOrderConfigRow();
-
-        if (is_null($rowcfg)){
-            $uman->UserConfigAppend($this->userid, 'bostick', "stickorder", $order);
-        } else {
-            $uman->UserConfigUpdate($this->userid, $rowcfg['id'], $order);
-        }
-    }
-
     public function Bos_MenuData(){
         if (!$this->IsWriteRole()){
             return null;
@@ -126,7 +85,6 @@ class BostickManager extends Ab_ModuleManager {
             "method" => "initializeBoard"
         );
     }
-
 }
 
 ?>

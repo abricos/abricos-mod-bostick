@@ -35,6 +35,7 @@ Component.entryPoint = function(NS){
             bBox.addClass('aw-bostick-w');
             var dd = new Y.DD.Drag({node: bBox});
 
+            dd.on('start', this.moveTop, this);
             dd.on('end', this.save, this);
             bBox.on('dblclick', this.showEditor, this);
 
@@ -42,6 +43,8 @@ Component.entryPoint = function(NS){
                 tp = this.template;
 
             if (stickerid === 0){
+                var ord = NS.Board.instance.list.length;
+                this.set('order', ord + 1);
                 this.save();
             } else {
                 var sticker = appInstance.get('stickerList').getById(stickerid),
@@ -51,6 +54,12 @@ Component.entryPoint = function(NS){
                 tp.setHTML('view', text);
                 tp.setValue('input', NS.convertViewToInput(text));
             }
+        },
+        onClick: function(){
+            this.moveTop();
+        },
+        moveTop: function(){
+            NS.Board.instance.stickerMoveTop(this.get('stickerid'));
         },
         getInputNode: function(){
             return this.template.one('input');
@@ -84,13 +93,14 @@ Component.entryPoint = function(NS){
             if (this.get('waiting')){
                 return;
             }
-
             var text = this.template.getValue('input'),
                 d = {
                     id: this.get('stickerid'),
                     region: this.get('region'),
-                    body: NS.convertInputToView(text)
+                    body: NS.convertInputToView(text),
+                    ord: this.get('order')
                 };
+
             this.set('waiting', true);
             this.get('appInstance').stickerSave(d, function(err, result){
                 this.set('waiting', false);
@@ -131,6 +141,14 @@ Component.entryPoint = function(NS){
                     var w = this.get(BBOX).get('region'),
                         a = [w.left, w.top, w.width, w.height];
                     return a.join(',');
+                }
+            },
+            order: {
+                setter: function(zIndex){
+                    this.get(BBOX).setStyle('zIndex', zIndex | 0);
+                },
+                getter: function(){
+                    return this.get(BBOX).getStyle('zIndex') | 0;
                 }
             }
         },
@@ -180,6 +198,12 @@ Component.entryPoint = function(NS){
                 this._showSticker(sticker.get('id'));
             }, this);
         },
+        each: function(fn, context){
+            var list = this.list;
+            for (var i = 0; i < list.length; i++){
+                fn.call(context || this, list[i].get('stickerid'), list[i], i);
+            }
+        },
         getStickerWidget: function(stickerid){
             stickerid = stickerid | 0;
             var list = this.list;
@@ -221,6 +245,39 @@ Component.entryPoint = function(NS){
                     list[i].closeEditor();
                 }
             }
+        },
+        stickerMoveTop: function(stickerid){
+            var widget = this.getStickerWidget(stickerid);
+
+            if (!widget){
+                return;
+            }
+
+            var list = this.list;
+            if (list.length > 0 && list[list.length - 1].get('stickerid') === stickerid){
+                return;
+            }
+
+            var nlist = [], ords = {},
+                index = 1;
+
+            this.each(function(id, item){
+                if (stickerid === id){
+                    return;
+                }
+                nlist[nlist.length] = item;
+                item.set('order', index);
+                ords[id] = index;
+                index++;
+            }, this);
+
+            nlist[nlist.length] = widget;
+            this.list = nlist;
+
+            widget.set('order', index);
+            ords[stickerid] = index;
+
+            this.appInstance.stickersOrderSave(ords);
         }
     };
     NS.Board = Board

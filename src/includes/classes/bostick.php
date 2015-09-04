@@ -48,6 +48,8 @@ class Bostick {
                 return $this->StickerSaveToJSON($d->sticker);
             case "stickerRemove":
                 return $this->StickerRemoveToJSON($d->stickerid);
+            case "stickersOrderSave":
+                return $this->StickersOrderSaveToJSON($d->orders);
         }
         return null;
     }
@@ -180,6 +182,23 @@ class Bostick {
 
         $ret = new stdClass();
         $ret->stickerid = $stickerid;
+
+        return $ret;
+    }
+
+    public function StickersOrderSaveToJSON($orders){
+        $ret = $this->StickersOrderSave($orders);
+        return $this->ResultToJSON('stickersOrderSave', $ret);
+    }
+
+    public function StickersOrderSave($orders){
+        if (!$this->manager->IsWriteRole()){
+            return 403;
+        }
+
+        BostickQuery::StickersOrderUpdate($this->db, Abricos::$user->id, $orders);
+
+        $ret = new stdClass();
 
         return $ret;
     }
