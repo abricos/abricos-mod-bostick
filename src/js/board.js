@@ -46,6 +46,7 @@ Component.entryPoint = function(NS){
                 var ord = NS.Board.instance.list.length;
                 this.set('order', ord + 1);
                 this.save();
+                this.showEditor();
             } else {
                 var sticker = appInstance.get('stickerList').getById(stickerid),
                     text = sticker.get('body');

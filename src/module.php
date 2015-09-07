@@ -60,11 +60,15 @@ class BostickModule extends Ab_Module {
         return "index"; // /modules/bostick/content/index.html
     }
 
-    public function Bos_IsMenu() {
+    public function Bos_IsMenu($p){
+        if (isset($p['noBosUI']) && $p['noBosUI']){
+            return false;
+        }
+
         return true;
     }
 
-    public function Bos_IsExtension() {
+    public function Bos_IsExtension(){
         return true;
     }
 }

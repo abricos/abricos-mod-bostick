@@ -69,7 +69,7 @@ class BostickManager extends Ab_ModuleManager {
                 "name" => "bostick",
                 "title" => $i18n->Translate('bosmenu.title'),
                 "descript" => $i18n->Translate('bosmenu.descript'),
-                "icon" => "/modules/bostick/images/app_icon.gif",
+                "icon" => "/modules/bostick/images/bostick-24.png",
                 "method" => "createSticker",
                 "component" => "board"
             )
