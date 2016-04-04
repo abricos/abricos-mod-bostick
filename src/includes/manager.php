@@ -67,6 +67,7 @@ class BostickManager extends Ab_ModuleManager {
         return array(
             array(
                 "name" => "bostick",
+                "group" => "personal",
                 "title" => $i18n->Translate('bosmenu.title'),
                 "descript" => $i18n->Translate('bosmenu.descript'),
                 "icon" => "/modules/bostick/images/bostick-24.png",
