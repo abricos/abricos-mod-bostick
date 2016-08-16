@@ -25,5 +25,3 @@ $brick->content = Brick::ReplaceVarByData($brick->content, array(
     "userid" => $user->id,
     "username" => $username
 ));
-
-?>

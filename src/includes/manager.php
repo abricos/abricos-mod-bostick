@@ -87,5 +87,3 @@ class BostickManager extends Ab_ModuleManager {
         );
     }
 }
-
-?>

@@ -95,7 +95,7 @@ class BostickPermission extends Ab_UserPermission {
      *
      * @param BostickModule $module
      */
-    public function BostickPermission(BostickModule $module){
+    public function __construct(BostickModule $module){
         // объявление ролей по умолчанию
         // используется при инсталяции модуля в платформе
         $defRoles = array(
@@ -117,5 +117,3 @@ class BostickPermission extends Ab_UserPermission {
 
 // создать экземляр класса модуля и зарегистрировать его в ядре 
 Abricos::ModuleRegister(new BostickModule());
-
-?>

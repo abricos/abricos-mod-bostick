@@ -26,5 +26,3 @@ class BostickSticker extends AbricosModel {
 class BostickStickerList extends AbricosModelList {
 
 }
-
-?>

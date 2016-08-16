@@ -8,17 +8,17 @@
  */
 
 $charset = "CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'";
-$updateManager = Ab_UpdateManager::$current; 
+$updateManager = Ab_UpdateManager::$current;
 $db = Abricos::$db;
 $pfx = $db->prefix;
 
 // первое обращение к модулю, произвести его инсталляцию
 if ($updateManager->isInstall()){
-	// инсталлировать роли модуля
-	Abricos::GetModule('bostick')->permission->Install();
-	
-	// Создать таблицу стикеров в базе 
-	$db->query_write("
+    // инсталлировать роли модуля
+    Abricos::GetModule('bostick')->permission->Install();
+
+    // Создать таблицу стикеров в базе
+    $db->query_write("
 		CREATE TABLE IF NOT EXISTS ".$pfx."bostk_stick (
 		  stickid int(10) unsigned NOT NULL auto_increment COMMENT 'Идентификатор стикера',
 		  userid int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Идентификатор автора',
@@ -33,13 +33,12 @@ if ($updateManager->isInstall()){
 		  PRIMARY KEY  (stickid),
 		  KEY userid (userid)
 		)".$charset
-	);
+    );
 }
 
 if (!$updateManager->isInstall() && $updateManager->isUpdate('0.1.3')){
-	$db->query_write("
+    $db->query_write("
 		ALTER TABLE ".$pfx."bostk_stick
 		ADD  ord int(5) unsigned NOT NULL DEFAULT 0 COMMENT 'Order'
 	");
 }
-?>
